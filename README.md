@@ -37,8 +37,7 @@ class Person
 end
 ```
 
-Coushion uses `Sphene` for attributes definition.
-Please check [Sphene Documentation](https://github.com/alejandrodevs/sphene) for more information.
+Coushion uses `Sphene` for attributes definition. Please check [Sphene Documentation](https://github.com/alejandrodevs/sphene) for more information about its usage and the [types](https://github.com/alejandrodevs/sphene/blob/master/lib/sphene/types.rb) available.
 
 ### Validations
 
@@ -60,10 +59,10 @@ end
 
 | Operation | Description |
 | ------------- | ------------- |
-| `Document.create` | Description |
-| `Document.create!` | Description |
+| `Document.create` | Instantiate a document and, if validations pass, insert it into the database. |
+| `Document.create!` | Insert a document into the database, raising an error if a validation or server error occurs. |
 | `Document#save` | Description |
-| `Document#save!` | Description |
+| `Document#save!` | Save the attributes to the database, or insert the document if new. Raises an exception if validations fail or there is a server error and returns true if the attributes were saved. |
 | `Document#update` | Description |
 | `Document#update!` | Description |
 | `Document#touch` | Description |
