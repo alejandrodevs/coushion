@@ -22,31 +22,39 @@ Or install it yourself as:
 
 ### Defining Documents
 
+Just include `Coushion::Document` in your class and start defining your
+document's attributes.
+
 ```ruby
 class Person
   include Coushion::Document
 
-  attribute :name, type: Types::String
+  attribute :first_name, type: Types::String
+  attribute :last_name, type: Types::String
+  attribute :occupation, type: Types::String
   attribute :locale, type: Types::String, default: "en"
-  attribute :followers, type: Types::Integer, default: 0
+  attribute :preferences, type: Types::Hash, default: {}
 end
-
-person = Person.new
-# => #<Person ...>
-
-person.locale
-# => "en"
-
-person.name = "Bart"
-# => "Bart"
-
-person.save
-# => true
 ```
+
+Coushion uses `Sphene` for attributes definition.
+Please check [Sphene Documentation](https://github.com/alejandrodevs/sphene) for more information.
 
 ### Validations
 
-Coushion includes [ActiveModel::Validations](https://api.rubyonrails.org/classes/ActiveModel/Validations.html) to supply the basic validation.
+Coushion includes [ActiveModel::Validations](https://api.rubyonrails.org/classes/ActiveModel/Validations.html) to supply basic validation.
+
+```ruby
+class Movie
+  include Coushion::Document
+
+  attribute :name, type: Types::String
+  attribute :genre, type: Types::String
+
+  validates :name, presence: true
+  validates :genre, inclusion: { in: ["drama", "action"] }
+end
+```
 
 ### Persistence
 
