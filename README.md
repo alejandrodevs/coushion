@@ -41,7 +41,7 @@ Coushion uses `Sphene` for attributes definition. Please check [Sphene Documenta
 
 ### Validations
 
-Coushion includes [ActiveModel::Validations](https://api.rubyonrails.org/classes/ActiveModel/Validations.html) to supply basic validation. Contexts `create` and `update` are provided.
+Coushion includes [ActiveModel::Validations](https://api.rubyonrails.org/classes/ActiveModel/Validations.html) to supply basic validation. Contexts for `create` and `update` actions are provided.
 
 ```ruby
 class Movie
@@ -135,14 +135,14 @@ post.destroy
 
 | Operation | Description |
 | ------------- | ------------- |
-| `Document.find` | Description |
-| `Document.where` | Description |
+| `Document.find` | Finds a document by a specific id. If the document cannot be found for the requested id, then `Coushion::DocumentNotFound` will be raised. |
+| `Document.where` | Queries documents using Mango. Mango is a declarative JSON querying language for CouchDB databases. |
 
 ##### Examples
 
 ```ruby
-Product.find("")
-# => #<Product id: "" ...>
+Product.find("16011a5704ffe78e6de2afa4b3001d10")
+# => #<Product id: "16011a..." ...>
 
 User.where(occupation: "Software Engineer")
 # => [#<User id: "" ...>, #<User id: "" ...>, ...]
