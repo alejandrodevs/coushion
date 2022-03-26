@@ -63,11 +63,11 @@ end
 | `Document.create!` | Inserts a document into the database, raising an error if a validation or server error occurs. Returns the document if there was not any error. |
 | `Document#save` | Saves the document to the database, or creates it if new. Doesn't raise exceptions on validation errors but it still raises server errors. Will return true if the document was saved, false if not. |
 | `Document#save!` | Saves the document to the database, or insert it if new. Raises an exception if validations failed or there was a server error. Returns true if the document was saved. |
-| `Document#update` | Updates the document in the database. It does not raise exceptions on validation errors but it still raises server errors. Returns true if the document was updated, false if not. |
+| `Document#update` | Updates the document in the database. Doesn't raise exceptions on validation errors but it still raises server errors. Returns true if the document was updated, false if not. |
 | `Document#update!` | Updates the document in the database and raise an error if validations failed or there was a server error. Returns true if the document was updated. |
 | `Document#touch` | Updates the document's updated_at timestamp, optionally with one extra provided time field. This operation skips validations and callbacks. |
-| `Document#delete` | Deletes the document from the database without running callbacks. |
-| `Document#destroy` | Deletes the document from the database while running destroy callbacks. |
+| `Document#delete` | Deletes the document from the database without running callbacks. It still raises server errors. Returns true if the document was deleted, false if not. |
+| `Document#destroy` | Deletes the document from the database while running destroy callbacks. It still raises server errors. Returns true if the document was deleted, false if not. |
 | `Document#new_record?` | Returns true if the model instance has not yet been saved to the database. Opposite of `persisted?` |
 | `Document#persisted?` | Returns true if the model instance has been saved to the database. Opposite of `new_record?` |
 
@@ -80,10 +80,11 @@ class Post
   attribute :title, type: Types::String
 
   validates :title, presence: true
+  validates :title, length: { maximum: 50 }
 end
 
 Post.create(title: "How to use CouchDB")
-# => #<Post id: "", rev: "", title: "How to use CouchDB" ...>
+# => #<Post id: "1601a...", rev: "1-b91b...", title: "How to use CouchDB" ...>
 
 Post.create!(title: nil)
 # => raises Coushion::DocumentInvalid
@@ -96,14 +97,14 @@ post.title = nil
 post.save!
 # => raises Coushion::DocumentInvalid
 
-post = Post.find("")
-post.update(title: "New title")
+post = Post.find("16011a5704ffe78e6de2afa4b3001d10")
+post.update(title: nil)
+# => false
+
+post.update!(title: "New post's title")
 # => true
 
-post.update!(title: nil)
-# => raises Coushion::DocumentInvalid
-
-post = Post.find("")
+post = Post.find("16011a5704ffe78e6de2afa4b3001d10")
 post.destroy
 # => true
 ```
