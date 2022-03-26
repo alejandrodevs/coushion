@@ -41,7 +41,7 @@ Coushion uses `Sphene` for attributes definition. Please check [Sphene Documenta
 
 ### Validations
 
-Coushion includes [ActiveModel::Validations](https://api.rubyonrails.org/classes/ActiveModel/Validations.html) to supply basic validation.
+Coushion includes [ActiveModel::Validations](https://api.rubyonrails.org/classes/ActiveModel/Validations.html) to supply basic validation. Contexts `create` and `update` are provided.
 
 ```ruby
 class Movie
@@ -51,7 +51,29 @@ class Movie
   attribute :genre, type: Types::String
 
   validates :name, presence: true
+  validates :name, length: { maximum: 50 }, on: :create
   validates :genre, inclusion: { in: ["drama", "action"] }
+end
+```
+
+### Callbacks
+
+Coushion includes [ActiveModel::Callbacks](https://api.rubyonrails.org/classes/ActiveModel/Callbacks.html) to supply callbacks. Callbacks `before` and `after` are provided for `save`, `create` and `update` actions.
+
+```ruby
+class User
+  include Coushion::Document
+
+  attribute :email, type: Types::String
+  attribute :username, type: Types::String
+
+  after_create :send_welcome_email
+
+  private
+
+  def send_welcome_email
+    UserMailer.welcome(id).deliver_later
+  end
 end
 ```
 
