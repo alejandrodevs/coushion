@@ -59,17 +59,17 @@ end
 
 | Operation | Description |
 | ------------- | ------------- |
-| `Document.create` | Instantiate a document and, if validations pass, insert it into the database. |
-| `Document.create!` | Insert a document into the database, raising an error if a validation or server error occurs. |
-| `Document#save` | Description |
-| `Document#save!` | Save the attributes to the database, or insert the document if new. Raises an exception if validations fail or there is a server error and returns true if the attributes were saved. |
-| `Document#update` | Description |
-| `Document#update!` | Description |
-| `Document#touch` | Description |
-| `Document#delete` | Description |
-| `Document#destroy` | Description |
-| `Document#new_record?` | Description |
-| `Document#persisted?` | Description |
+| `Document.create` | Inserts a document into the database. Doesn't raise exceptions on validation errors but it still raises server errors. Returns the document no matter if it was persisted or not. |
+| `Document.create!` | Inserts a document into the database, raising an error if a validation or server error occurs. Returns the document if there was not any error. |
+| `Document#save` | Saves the document to the database, or creates it if new. Doesn't raise exceptions on validation errors but it still raises server errors. Will return true if the document was saved, false if not. |
+| `Document#save!` | Saves the document to the database, or insert it if new. Raises an exception if validations failed or there was a server error. Returns true if the document was saved. |
+| `Document#update` | Updates the document in the database. It does not raise exceptions on validation errors but it still raises server errors. Returns true if the document was updated, false if not. |
+| `Document#update!` | Updates the document in the database and raise an error if validations failed or there was a server error. Returns true if the document was updated. |
+| `Document#touch` | Updates the document's updated_at timestamp, optionally with one extra provided time field. This operation skips validations and callbacks. |
+| `Document#delete` | Deletes the document from the database without running callbacks. |
+| `Document#destroy` | Deletes the document from the database while running destroy callbacks. |
+| `Document#new_record?` | Returns true if the model instance has not yet been saved to the database. Opposite of `persisted?` |
+| `Document#persisted?` | Returns true if the model instance has been saved to the database. Opposite of `new_record?` |
 
 ##### Examples
 
